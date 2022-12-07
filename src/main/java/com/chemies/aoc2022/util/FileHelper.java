@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FileHelper {
+
+    public static final String DATA_PATH = "D:\\Git\\AdventOfCode-2022\\src\\main\\java\\com\\chemies\\AoC2022\\data\\";
+
     public ImmutableList<String> fileToStringList(final String filename) {
         final ArrayList<String> list = new ArrayList<>();
 
@@ -36,8 +39,6 @@ public class FileHelper {
             list = Arrays.stream(line.split(","))
                     .map(Integer::parseInt)
                     .collect(ImmutableList.toImmutableList());
-        } catch (final FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
@@ -76,7 +77,7 @@ public class FileHelper {
         return ImmutableList.copyOf(list);
     }
 
-    public ImmutableList<ImmutableList<String>> fileToGroupedList(final String filename) {
+    public ImmutableList<ImmutableList<String>> fileToGroupedStringList(final String filename) {
         final ArrayList<ImmutableList<String>> outerList = new ArrayList<>();
         try {
             final BufferedReader reader = getReader(filename);
@@ -101,11 +102,36 @@ public class FileHelper {
         return ImmutableList.copyOf(outerList);
     }
 
+    public ImmutableList<ImmutableList<Integer>> fileToGroupedIntegerList(final String filename) {
+        final ArrayList<ImmutableList<Integer>> outerList = new ArrayList<>();
+        try {
+            final BufferedReader reader = getReader(filename);
+            String line = reader.readLine().trim();
+            final ArrayList<Integer> innerList = new ArrayList<>();
+            boolean cont = true;
+            while (cont) {
+                if (line == null || line.isEmpty()) {
+                    outerList.add(ImmutableList.copyOf(innerList));
+                    innerList.clear();
+                    if (line == null) {
+                        cont = false;
+                    }
+                } else {
+                    innerList.add(Integer.parseInt(line));
+                }
+                line = reader.readLine();
+            }
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        return ImmutableList.copyOf(outerList);
+    }
+
     private BufferedReader getReader(final String filename) throws FileNotFoundException {
         final BufferedReader reader;
         try {
             reader =
-                    new BufferedReader(new FileReader("D:\\Git\\AdventOfCode-2021\\src\\main\\java\\com\\chemies\\AoC2021\\data\\" + filename));
+                    new BufferedReader(new FileReader(DATA_PATH + filename));
 
         } catch (final FileNotFoundException e) {
             e.printStackTrace();

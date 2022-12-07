@@ -1,11 +1,16 @@
 package com.chemies.aoc2022.day;
 
+import com.chemies.aoc2022.util.FileHelper;
 import com.chemies.aoc2022.util.TextFormatter;
 import com.diogonunes.jcolor.Attribute;
 import com.google.common.collect.ImmutableList;
 
+import java.util.Collections;
+import java.util.OptionalInt;
+
 public class Day01 implements Day {
-    private final com.chemies.aoc2021.util.FileHelper _fileHelper = new com.chemies.aoc2021.util.FileHelper();
+
+    private final FileHelper _fileHelper = new FileHelper();
     private final TextFormatter _textFormatter = new TextFormatter();
 
     @Override
@@ -31,32 +36,28 @@ public class Day01 implements Day {
         return true;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public int partA(final String filename) {
-        final ImmutableList<Integer> integers = _fileHelper.fileToIntegerList(filename);
+        ImmutableList<ImmutableList<Integer>> groupedList = _fileHelper.fileToGroupedIntegerList(filename);
 
-        int count = 0;
-        for (int i = 1; i < integers.size(); i++) {
-            if (integers.get(i - 1) < integers.get(i)) {
-                count++;
-            }
+        OptionalInt max = groupedList.stream()
+                .mapToInt(person -> person.stream()
+                        .mapToInt(Integer::intValue).sum())
+                .max();
 
-        }
-        return count;
+        return max.getAsInt();
     }
 
     public int partB(final String filename) {
 
-        final ImmutableList<Integer> integers = _fileHelper.fileToIntegerList(filename);
-
-        int count = 0;
-        int previousWindow = integers.get(0) + integers.get(1) + integers.get(2);
-        for (int i = 1; i < integers.size() - 2; i++) {
-            final int currentWindow = integers.get(i) + integers.get(i + 1) + integers.get(i + 2);
-            if (previousWindow < currentWindow) {
-                count++;
-            }
-            previousWindow = currentWindow;
-        }
-        return count;
+        ImmutableList<ImmutableList<Integer>> groupedList = _fileHelper.fileToGroupedIntegerList(filename);
+        return groupedList.stream()
+                .mapToInt(person -> person.stream()
+                        .mapToInt(Integer::intValue).sum())
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .limit(3)
+                .mapToInt(Integer::intValue)
+                .sum();
     }
 }

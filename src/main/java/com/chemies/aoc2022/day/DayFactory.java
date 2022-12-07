@@ -6,10 +6,9 @@ public class DayFactory {
     public static Day getDay(final int day) {
         if (day == 1) {
             return new Day01();
-        }
-        /*else if (day == 2) {
+        } else if (day == 2) {
             return new Day02();
-        } else if (day == 3) {
+        }/* else if (day == 3) {
             return new Day03();
         } else if (day == 4) {
             return new Day04();

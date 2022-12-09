@@ -70,7 +70,29 @@ public class Day03 implements Day {
 
     int partB(final String filename) {
         final ImmutableList<String> ruckSacks = _fileHelper.fileToStringList(filename);
-        return 0;
+        final ArrayList<Character> badges = new ArrayList<>();
+
+        for (int i = 0; i < ruckSacks.size(); i += 3) {
+            badges.add(findCommonItemPartB(ruckSacks.get(i), ruckSacks.get(i + 1), ruckSacks.get(i + 2)));
+
+        }
+
+        final Map<Character, Integer> priotities = buildItemPriotities();
+        return badges.stream()
+                .mapToInt(priotities::get)
+                .sum();
+
+    }
+
+    private char findCommonItemPartB(final String first, final String second, final String third) throws IllegalArgumentException {
+        for (int i = 0; i < first.length(); i++) {
+            final char c = first.charAt(i);
+            if (second.indexOf(c) > -1 && third.indexOf(c) > -1) {
+                return c;
+            }
+        }
+
+        throw new IllegalArgumentException();
     }
 
     Map<Character, Integer> buildItemPriotities() {

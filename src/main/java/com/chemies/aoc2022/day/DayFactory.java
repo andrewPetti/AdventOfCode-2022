@@ -8,9 +8,9 @@ public class DayFactory {
             return new Day01();
         } else if (day == 2) {
             return new Day02();
-        }/* else if (day == 3) {
+        } else if (day == 3) {
             return new Day03();
-        } else if (day == 4) {
+        }/* else if (day == 4) {
             return new Day04();
         } else if (day == 5) {
             return new Day05();

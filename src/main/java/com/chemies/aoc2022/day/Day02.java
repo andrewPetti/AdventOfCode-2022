@@ -53,7 +53,7 @@ public class Day02 implements Day {
         return true;
     }
 
-    public int partA(final String filename) {
+    int partA(final String filename) {
         final ImmutableList<String> rawStrings = _fileHelper.fileToStringList(filename);
 
         return rawStrings.stream()
@@ -91,7 +91,7 @@ public class Day02 implements Day {
         return basePoints.get(s);
     }
 
-    public int partB(final String filename) {
+    int partB(final String filename) {
 
         final ImmutableList<String> rawStrings = _fileHelper.fileToStringList(filename);
 

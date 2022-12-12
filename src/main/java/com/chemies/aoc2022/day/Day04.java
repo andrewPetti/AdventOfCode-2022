@@ -21,14 +21,14 @@ public class Day04 implements Day {
 
         final int[] sum = {0};
         elfPairs.forEach(pair -> {
-            if (pairOverlaps(pair)) {
+            if (pairOverlapsFully(pair)) {
                 sum[0]++;
             }
         });
         return sum[0];
     }
 
-    private boolean pairOverlaps(final String pair) {
+    private boolean pairOverlapsFully(final String pair) {
         final String[] ranges = pair.split(",");
         final Pair<Integer, Integer> range1 = rangeValues(ranges[0]);
         final Pair<Integer, Integer> range2 = rangeValues(ranges[1]);
@@ -54,8 +54,29 @@ public class Day04 implements Day {
     }
 
     int partB(final String filename) {
+        final ImmutableList<String> elfPairs = _fileHelper.fileToStringList(filename);
 
-        return 0;
+        final int[] sum = {0};
+        elfPairs.forEach(pair -> {
+            if (pairOverlapsPartially(pair)) {
+                sum[0]++;
+            }
+        });
+        return sum[0];
+    }
+
+    private boolean pairOverlapsPartially(final String pair) {
+        final String[] ranges = pair.split(",");
+        final Pair<Integer, Integer> range1 = rangeValues(ranges[0]);
+        final Pair<Integer, Integer> range2 = rangeValues(ranges[1]);
+
+        if (doesRangeOverlapPartially(range1, range2)) {
+            return true;
+        } else return doesRangeOverlapFully(range2, range1);
+    }
+
+    private boolean doesRangeOverlapPartially(final Pair<Integer, Integer> first, final Pair<Integer, Integer> second) {
+        return first.getValue1() >= second.getValue0() && first.getValue0() <= second.getValue1();
     }
 
     @Override

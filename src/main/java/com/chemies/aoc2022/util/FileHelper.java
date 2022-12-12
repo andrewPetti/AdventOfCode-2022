@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@SuppressWarnings("unused")
 public class FileHelper {
 
     public static final String DATA_PATH = "D:\\Git\\AdventOfCode-2022\\src\\main\\java\\com\\chemies\\AoC2022\\data\\";
@@ -77,11 +78,24 @@ public class FileHelper {
         return ImmutableList.copyOf(list);
     }
 
-    public ImmutableList<ImmutableList<String>> fileToGroupedStringList(final String filename) {
+    public ImmutableList<ImmutableList<String>> fileToGroupedStringListNoTrim(final String filename) {
+        return fileToGroupedStringList(filename, false);
+    }
+
+    public ImmutableList<ImmutableList<String>> fileToGroupedStringListTrim(final String filename) {
+        return fileToGroupedStringList(filename, true);
+    }
+
+    private ImmutableList<ImmutableList<String>> fileToGroupedStringList(final String filename, final Boolean trim) {
         final ArrayList<ImmutableList<String>> outerList = new ArrayList<>();
         try {
             final BufferedReader reader = getReader(filename);
-            String line = reader.readLine().trim();
+            String line;
+            if (trim) {
+                line = reader.readLine().trim();
+            } else {
+                line = reader.readLine();
+            }
             final ArrayList<String> innerList = new ArrayList<>();
             boolean cont = true;
             while (cont) {

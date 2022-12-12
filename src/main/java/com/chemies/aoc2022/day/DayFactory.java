@@ -14,6 +14,7 @@ public class DayFactory {
             case 4:
                 return new Day04();
             case 5:
+                return new Day05();
             case 6:
             case 7:
             case 8:
